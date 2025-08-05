@@ -1,5 +1,86 @@
 import { StockRevenue } from "@/types/stock";
 
-const mockData: StockRevenue[] = [];
+const mockData: StockRevenue[] = [
+  {
+    date: "2024-01-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 120000,
+    revenue_month: 120000,
+    revenue_year: 120000,
+  },
+  {
+    date: "2024-02-29",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 110000,
+    revenue_month: 110000,
+    revenue_year: 230000,
+  },
+  {
+    date: "2024-03-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 130000,
+    revenue_month: 130000,
+    revenue_year: 360000,
+  },
+  {
+    date: "2024-04-30",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 125000,
+    revenue_month: 125000,
+    revenue_year: 485000,
+  },
+  {
+    date: "2024-05-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 140000,
+    revenue_month: 140000,
+    revenue_year: 625000,
+  },
+  {
+    date: "2024-06-30",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 135000,
+    revenue_month: 135000,
+    revenue_year: 760000,
+  },
+  {
+    date: "2024-07-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 150000,
+    revenue_month: 150000,
+    revenue_year: 910000,
+  },
+  {
+    date: "2024-08-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 145000,
+    revenue_month: 145000,
+    revenue_year: 1055000,
+  },
+  {
+    date: "2024-09-30",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 155000,
+    revenue_month: 155000,
+    revenue_year: 1210000,
+  },
+  {
+    date: "2024-10-31",
+    stock_id: "600519",
+    country: "CN",
+    revenue: 160000,
+    revenue_month: 160000,
+    revenue_year: 1370000,
+  },
+];
 
 export default mockData;
