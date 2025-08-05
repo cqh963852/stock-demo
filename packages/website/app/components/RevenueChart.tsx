@@ -13,6 +13,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import type { StockRevenue } from "@/types/stock";
+import getYoY from "../lib/getYoY";
 
 interface IProps {
   data: StockRevenue[];
@@ -31,10 +32,8 @@ function getChartData(data: StockRevenue[]) {
       const [year, month] = item.date.split("-");
       const lastYearDate = `${Number(year) - 1}-${month}`;
       const lastYear = map.get(lastYearDate);
-      const yoy =
-        lastYear && lastYear.revenue
-          ? (item.revenue / lastYear.revenue - 1) * 100
-          : null;
+      const yoy = getYoY(item, data);
+
       return {
         date: item.date,
         year,
@@ -80,12 +79,16 @@ export const RevenueChart = (props: IProps) => {
           yAxisId="left"
           orientation="left"
           label={{ value: "营收(千元)", angle: -90, position: "insideLeft" }}
+          tickFormatter={(v) => v.toLocaleString()}
         />
         <YAxis
           yAxisId="right"
           orientation="right"
           label={{ value: "年增率(%)", angle: 90, position: "insideRight" }}
           domain={[-100, 100]}
+          tickFormatter={(v) =>
+            v !== null && v !== undefined ? `${v.toFixed(2)}%` : ""
+          }
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend />

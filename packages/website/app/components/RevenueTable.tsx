@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import type { StockRevenue } from "../../types/stock";
+import getYoY from "../lib/getYoY";
 
 // 工具函数：千位分隔
 function formatNumber(num: number) {
@@ -12,19 +13,6 @@ function formatNumber(num: number) {
 // 工具函数：百分比格式化
 function formatPercent(num: number) {
   return num === null || isNaN(num) ? "-" : `${num.toFixed(2)} %`;
-}
-
-// 年增率计算
-function getYoY(current: StockRevenue, all: StockRevenue[]) {
-  // 查找去年同月
-  const prev = all.find(
-    (item) =>
-      item.stock_id === current.stock_id &&
-      item.date.slice(4, 6) === current.date.slice(4, 6) && // 月份相同
-      Number(item.date.slice(0, 4)) === Number(current.date.slice(0, 4)) - 1, // 年份-1
-  );
-  if (!prev || prev.revenue === 0) return null;
-  return ((current.revenue - prev.revenue) / prev.revenue) * 100;
 }
 
 interface IProps {
