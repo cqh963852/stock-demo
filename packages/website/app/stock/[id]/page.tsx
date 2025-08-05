@@ -7,7 +7,14 @@ import getRevenueStats from "@/app/lib/getRevenueStats";
 export default function Page() {
   const stats = getRevenueStats(mockData);
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
+    <Paper
+      style={{
+        flex: "1",
+        display: "flex",
+        justifyContent: "center",
+        padding: 16,
+      }}
+    >
       <div style={{ maxWidth: "900px" }}>
         <Paper></Paper>
         <Paper>
@@ -18,6 +25,6 @@ export default function Page() {
           <RevenueTable data={stats} />
         </Paper>
       </div>
-    </div>
+    </Paper>
   );
 }

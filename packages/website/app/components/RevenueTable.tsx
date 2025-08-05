@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import type { RevenueStats } from "../lib/getRevenueStats";
+import { useTheme } from "@emotion/react";
 
 // 工具函数：千位分隔
 function formatNumber(num: number) {
@@ -23,7 +24,7 @@ interface IProps {
 const RevenueTable = (props: IProps) => {
   const { data } = props;
   // 已按日期升序，表格需倒序展示
-
+  const theme = useTheme();
   // 转置数据
   const monthList = data.map((row) => row.date);
 
@@ -49,7 +50,7 @@ const RevenueTable = (props: IProps) => {
               style={{
                 position: "sticky",
                 left: 0,
-                background: "#fafafa",
+                background: theme.palette.mode === "dark" ? "#000" : "#fafafa",
                 zIndex: 2,
                 textAlign: "left",
                 padding: "8px",
@@ -87,7 +88,7 @@ const RevenueTable = (props: IProps) => {
               style={{
                 position: "sticky",
                 left: 0,
-                background: "#fafafa",
+                background: theme.palette.mode === "dark" ? "#000" : "#fafafa",
                 zIndex: 2,
                 textAlign: "left",
                 padding: "8px",
@@ -125,7 +126,7 @@ const RevenueTable = (props: IProps) => {
               style={{
                 position: "sticky",
                 left: 0,
-                background: "#fafafa",
+                background: theme.palette.mode === "dark" ? "#000" : "#fafafa",
                 zIndex: 2,
                 textAlign: "left",
                 padding: "8px",

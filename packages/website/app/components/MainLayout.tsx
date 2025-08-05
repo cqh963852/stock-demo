@@ -30,10 +30,14 @@ const MainLayout = (props: PropsWithChildren<{}>) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <StockSearch themeMode={themeMode} onToggleTheme={toggleTheme} />
-      </AppBar>
-      {children}
+      <div
+        style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+      >
+        <AppBar position="static">
+          <StockSearch themeMode={themeMode} onToggleTheme={toggleTheme} />
+        </AppBar>
+        {children}
+      </div>
     </ThemeProvider>
   );
 };

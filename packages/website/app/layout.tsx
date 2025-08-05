@@ -4,6 +4,7 @@ import "./globals.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import dynamic from "next/dynamic";
 import MainLayout from "./components/MainLayout";
+import { Box } from "@mui/material";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
