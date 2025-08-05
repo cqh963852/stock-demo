@@ -2,8 +2,7 @@
 
 import * as React from "react";
 
-import type { StockRevenue } from "../../types/stock";
-import getYoY from "../lib/getYoY";
+import type { RevenueStats } from "../lib/getRevenueStats";
 
 // 工具函数：千位分隔
 function formatNumber(num: number) {
@@ -16,31 +15,23 @@ function formatPercent(num: number) {
 }
 
 interface IProps {
-  data: StockRevenue[];
+  data: RevenueStats[];
 }
 
 /* 已废弃，无需单独行组件 */
 
 const RevenueTable = (props: IProps) => {
   const { data } = props;
-  const sorted = React.useMemo(
-    () => [...data].sort((a, b) => b.date.localeCompare(a.date)),
-    [data],
-  );
+  // 已按日期升序，表格需倒序展示
 
   // 转置数据
-  const monthList = sorted.map((row) => row.date);
-  const revenueList = sorted.map((row) =>
-    typeof row.revenue === "number" && !isNaN(row.revenue)
-      ? formatNumber(row.revenue)
-      : "-",
-  );
-  const yoyList = sorted.map((row) => {
-    const yoy = getYoY(row, sorted);
-    return typeof yoy === "number" ? formatPercent(yoy) : "-";
-  });
+  const monthList = data.map((row) => row.date);
 
-  const colCount = sorted.length;
+  const yoyList = data.map((row) =>
+    typeof row.yoy === "number" ? formatPercent(row.yoy) : "-",
+  );
+
+  const colCount = data.length;
 
   return (
     <div
@@ -114,7 +105,7 @@ const RevenueTable = (props: IProps) => {
                 暂无数据
               </td>
             ) : (
-              revenueList.map((v, idx) => (
+              data.map((v, idx) => (
                 <td
                   key={idx}
                   style={{
@@ -124,7 +115,7 @@ const RevenueTable = (props: IProps) => {
                     textAlign: "right",
                   }}
                 >
-                  {v}
+                  {formatNumber(v.revenue)}
                 </td>
               ))
             )}

@@ -12,36 +12,10 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import type { StockRevenue } from "@/types/stock";
-import getYoY from "../lib/getYoY";
+import type { RevenueStats } from "../lib/getRevenueStats";
 
 interface IProps {
-  data: StockRevenue[];
-}
-
-function getChartData(data: StockRevenue[]) {
-  // 按年月分组，计算年增率
-  const map = new Map<string, StockRevenue>();
-  data.forEach((item) => {
-    map.set(item.date, item);
-  });
-
-  return data
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .map((item) => {
-      const [year, month] = item.date.split("-");
-      const lastYearDate = `${Number(year) - 1}-${month}`;
-      const lastYear = map.get(lastYearDate);
-      const yoy = getYoY(item, data);
-
-      return {
-        date: item.date,
-        year,
-        month,
-        revenue: item.revenue / 1000, // 千元
-        yoy, // 百分比
-      };
-    });
+  data: RevenueStats[];
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -50,7 +24,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     const yoy = payload.find((p: any) => p.dataKey === "yoy")?.value;
     return (
       <div style={{ background: "#fff", border: "1px solid #ccc", padding: 8 }}>
-        <div>年月：{label}</div>
+        <div>年月：{label.slice(0, 7)}</div>
         <div>营收：{revenue?.toLocaleString()} 千元</div>
         <div>
           年增率：
@@ -64,7 +38,13 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export const RevenueChart = (props: IProps) => {
   const { data } = props;
-  const chartData = getChartData(data);
+  // 千元单位
+  const chartData = data.map((item) => ({
+    ...item,
+    revenue: item.revenue / 1000,
+  }));
+
+  console.log("Chart data:", chartData);
 
   return (
     <ResponsiveContainer width="100%" height={400}>
@@ -72,7 +52,10 @@ export const RevenueChart = (props: IProps) => {
         <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
         <XAxis
           dataKey="date"
-          tickFormatter={(v) => v.slice(0, 7)}
+          interval={0}
+          tickFormatter={(v) => {
+            return v.slice(5, 7) === "01" ? v.slice(0, 4) : "";
+          }}
           minTickGap={20}
         />
         <YAxis
