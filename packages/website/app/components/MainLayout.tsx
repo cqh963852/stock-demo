@@ -9,7 +9,7 @@ import React, {
 import { AppBar, createTheme, ThemeProvider } from "@mui/material";
 import StockSearch from "./StockSearch";
 
-const MainLayout = (props: PropsWithChildren<{}>) => {
+const MainLayout = (props: PropsWithChildren<unknown>) => {
   const { children } = props;
 
   const [themeMode, setThemeMode] = useState<"light" | "dark">("light");

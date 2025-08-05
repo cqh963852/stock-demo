@@ -18,13 +18,23 @@ interface IProps {
   data: RevenueStats[];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface ICustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    dataKey?: string;
+    value?: number;
+  }>;
+  label?: string;
+}
+
+const CustomTooltip = (props: ICustomTooltipProps) => {
+  const { active, payload, label } = props;
   if (active && payload && payload.length) {
-    const revenue = payload.find((p: any) => p.dataKey === "revenue")?.value;
-    const yoy = payload.find((p: any) => p.dataKey === "yoy")?.value;
+    const revenue = payload.find((p) => p.dataKey === "revenue")?.value;
+    const yoy = payload.find((p) => p.dataKey === "yoy")?.value;
     return (
       <div style={{ background: "#fff", border: "1px solid #ccc", padding: 8 }}>
-        <div>年月：{label.slice(0, 7)}</div>
+        <div>年月：{label?.slice(0, 7)}</div>
         <div>营收：{revenue?.toLocaleString()} 千元</div>
         <div>
           年增率：
