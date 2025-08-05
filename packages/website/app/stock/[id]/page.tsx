@@ -1,9 +1,9 @@
+import { RevenueChart } from "@/app/components/RevenueChart";
+import RevenueTable from "@/app/components/RevenueTable";
+import mockData from "@/app/mock/mockData";
 import Paper from "@mui/material/Paper";
-import { RevenueChart } from "./components/RevenueChart";
-import RevenueTable from "./components/RevenueTable";
-import mockData from "./mock/mockData";
 
-export default function Home() {
+export default function Page() {
   return (
     <div>
       <Paper></Paper>
