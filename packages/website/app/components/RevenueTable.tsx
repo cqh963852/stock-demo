@@ -1,16 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Box,
-} from "@mui/material";
+
 import type { StockRevenue } from "../../types/stock";
 
 // 工具函数：千位分隔
@@ -40,21 +31,7 @@ interface IProps {
   data: StockRevenue[];
 }
 
-const RevenueTableRow: React.FC<{
-  row: StockRevenue;
-  data: StockRevenue[];
-}> = ({ row, data }) => {
-  const yoy = React.useMemo(() => getYoY(row, data), [row, data]);
-  return (
-    <TableRow key={row.date}>
-      <TableCell>{row.date}</TableCell>
-      <TableCell align="right">{formatNumber(row.revenue)}</TableCell>
-      <TableCell align="right">
-        {yoy === null ? "-" : formatPercent(yoy)}
-      </TableCell>
-    </TableRow>
-  );
-};
+/* 已废弃，无需单独行组件 */
 
 const RevenueTable = (props: IProps) => {
   const { data } = props;
@@ -63,25 +40,148 @@ const RevenueTable = (props: IProps) => {
     [data],
   );
 
+  // 转置数据
+  const monthList = sorted.map((row) => row.date);
+  const revenueList = sorted.map((row) =>
+    typeof row.revenue === "number" && !isNaN(row.revenue)
+      ? formatNumber(row.revenue)
+      : "-",
+  );
+  const yoyList = sorted.map((row) => {
+    const yoy = getYoY(row, sorted);
+    return typeof yoy === "number" ? formatPercent(yoy) : "-";
+  });
+
+  const colCount = sorted.length;
+
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
-      <TableContainer component={Paper} sx={{ minWidth: 480 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>年度月份</TableCell>
-              <TableCell align="right">每月营收</TableCell>
-              <TableCell align="right">单月营收年增率</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sorted.map((row) => (
-              <RevenueTableRow key={row.date} row={row} data={data} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+    <div
+      style={{
+        maxWidth: "100%",
+        overflowX: "auto",
+        border: "1px solid #eee",
+        borderRadius: 6,
+      }}
+    >
+      <table style={{ minWidth: 600, borderCollapse: "collapse" }}>
+        <tbody>
+          <tr>
+            <th
+              style={{
+                position: "sticky",
+                left: 0,
+                background: "#fafafa",
+                zIndex: 2,
+                textAlign: "left",
+                padding: "8px",
+                borderBottom: "1px solid #eee",
+                minWidth: 120,
+                width: 120,
+              }}
+            >
+              年度月份
+            </th>
+            {colCount === 0 ? (
+              <td
+                style={{ textAlign: "center", padding: "24px", color: "#888" }}
+              >
+                暂无数据
+              </td>
+            ) : (
+              monthList.map((v, idx) => (
+                <td
+                  key={idx}
+                  style={{
+                    padding: "8px",
+                    borderBottom: "1px solid #f5f5f5",
+                    minWidth: 100,
+                    textAlign: "center",
+                  }}
+                >
+                  {v}
+                </td>
+              ))
+            )}
+          </tr>
+          <tr>
+            <th
+              style={{
+                position: "sticky",
+                left: 0,
+                background: "#fafafa",
+                zIndex: 2,
+                textAlign: "left",
+                padding: "8px",
+                borderBottom: "1px solid #eee",
+                minWidth: 120,
+                width: 120,
+              }}
+            >
+              每月营收
+            </th>
+            {colCount === 0 ? (
+              <td
+                style={{ textAlign: "center", padding: "24px", color: "#888" }}
+              >
+                暂无数据
+              </td>
+            ) : (
+              revenueList.map((v, idx) => (
+                <td
+                  key={idx}
+                  style={{
+                    padding: "8px",
+                    borderBottom: "1px solid #f5f5f5",
+                    minWidth: 100,
+                    textAlign: "right",
+                  }}
+                >
+                  {v}
+                </td>
+              ))
+            )}
+          </tr>
+          <tr>
+            <th
+              style={{
+                position: "sticky",
+                left: 0,
+                background: "#fafafa",
+                zIndex: 2,
+                textAlign: "left",
+                padding: "8px",
+                borderBottom: "1px solid #eee",
+                minWidth: 120,
+                width: 120,
+              }}
+            >
+              单月营收年增率
+            </th>
+            {colCount === 0 ? (
+              <td
+                style={{ textAlign: "center", padding: "24px", color: "#888" }}
+              >
+                暂无数据
+              </td>
+            ) : (
+              yoyList.map((v, idx) => (
+                <td
+                  key={idx}
+                  style={{
+                    padding: "8px",
+                    borderBottom: "1px solid #f5f5f5",
+                    minWidth: 100,
+                    textAlign: "right",
+                  }}
+                >
+                  {v}
+                </td>
+              ))
+            )}
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 };
 
